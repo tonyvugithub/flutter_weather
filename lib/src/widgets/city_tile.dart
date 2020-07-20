@@ -10,10 +10,14 @@ class CityTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(city.name),
+        title: Text(
+          city.name,
+          style: TextStyle(fontSize: 15.0),
+        ),
         onTap: () {
           Navigator.pushNamed(context, '/${city.lat}&${city.lon}');
         },
+        dense: true,
       ),
     );
   }

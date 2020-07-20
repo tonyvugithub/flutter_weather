@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_icons/weather_icons.dart';
 import '../resources/city_api_provider.dart';
 import '../bloc/city_provider.dart';
@@ -20,7 +21,6 @@ class LandingScreen extends StatelessWidget {
         elevation: 4,
       ),
       body: _buildBody(context, bloc),
-      //bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
@@ -47,6 +47,23 @@ class LandingScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 35.0),
         ),
         _buildForm(context, bloc),
+        Container(
+          child: Text('Or', style: TextStyle(color: Colors.yellow)),
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+        ),
+        RaisedButton(
+          child: Text(
+            'Use Current Location',
+            style: TextStyle(color: Colors.blue[900]),
+          ),
+          onPressed: () async {
+            Position position = await Geolocator()
+                .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+            Navigator.pushNamed(
+                context, '/${position.latitude}&${position.longitude}');
+          },
+          color: Colors.yellow[200],
+        ),
         Divider(
           height: 30.0,
           color: Colors.yellow,
@@ -55,6 +72,7 @@ class LandingScreen extends StatelessWidget {
           child: _buildCityList(bloc),
         ),
       ],
+      crossAxisAlignment: CrossAxisAlignment.start,
     );
 
     return Container(
@@ -187,24 +205,6 @@ class LandingScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildBottomNavBar() {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          title: Text('Search'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_box),
-          title: Text('Author'),
-        ),
-      ],
-      unselectedItemColor: Colors.grey[350],
-      selectedItemColor: Colors.white,
-      backgroundColor: Colors.blue[900],
     );
   }
 }

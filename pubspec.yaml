@@ -32,6 +32,7 @@ dependencies:
   http: ^0.12.0
   intl: ^0.16.0
   charcode: ^1.1.0
+  geolocator: ^5.3.2+2
 
 dev_dependencies:
   flutter_test:
